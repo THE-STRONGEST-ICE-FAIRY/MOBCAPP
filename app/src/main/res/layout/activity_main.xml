@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FOOD ORDERING APPLICATION" />
+
+    <Spinner
+        android:id="@+id/meals_Spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/mealImage_ImageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/price_TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Price: P00.00" />
+
+    <RadioGroup
+        android:id="@+id/mealTypes_RadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/alaCarte_RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Ala Carte" />
+
+        <RadioButton
+            android:id="@+id/valueMeal_RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Value Meal" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/valueMealGroup_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/fries_CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fries" />
+
+        <RadioGroup
+            android:id="@+id/friesSizes_RadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/friesMedium_RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Medium (P25.00)" />
+
+            <RadioButton
+                android:id="@+id/friesLarge_RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Large (P35.00)" />
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/drink_CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Drink" />
+
+        <RadioGroup
+            android:id="@+id/drinkSizes_RadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/drinkMedium_CheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Medium (P15.00)" />
+
+            <RadioButton
+                android:id="@+id/drinkLarge_CheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Large (P25.00)" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="# of orders:" />
+
+        <EditText
+            android:id="@+id/orderAmount_EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/decrement_Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/increment_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/reset_Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="RESET"
+            android:textSize="8sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/totalPrice_TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Price: P00.00" />
+
+    <Button
+        android:id="@+id/completeOrder_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Complete Order" />
+
+</LinearLayout>
