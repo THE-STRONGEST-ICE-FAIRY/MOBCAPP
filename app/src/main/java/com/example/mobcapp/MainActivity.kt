@@ -27,7 +27,17 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        start()
+        val sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE)
+//        sharedPreferences.edit().putBoolean("hasCompletedOnboarding", true).apply()
+
+        val hasCompleted = sharedPreferences.getBoolean("hasCompletedOnboarding", false)
+        if (!hasCompleted) {
+            start()
+        }
+        else {
+            val intent = Intent(this, MainMenu::class.java)
+            startActivity(intent)
+        }
     }
 
     private lateinit var meals_Spinner: Spinner

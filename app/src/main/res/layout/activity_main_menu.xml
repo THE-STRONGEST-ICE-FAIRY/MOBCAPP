@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainMenu">
+
+    <TextView
+        android:id="@+id/sample_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MainMenu" />
+
+    <Button
+        android:id="@+id/cashier_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cashier" />
+
+    <Button
+        android:id="@+id/inventory_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inventory" />
+
+    <Button
+        android:id="@+id/game_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play" />
+
+    <Button
+        android:id="@+id/tutorial_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Replay Tutorial" />
+
+    <Button
+        android:id="@+id/about_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About" />
+</LinearLayout>
