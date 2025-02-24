@@ -3,12 +3,13 @@ package com.example.mobcapp
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainMenu : AppCompatActivity() {
+class ActivityMainMenu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,23 +20,31 @@ class MainMenu : AppCompatActivity() {
             insets
         }
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // leave blank
+            }
+        })
+
         start()
     }
 
     private lateinit var cashier_Button: Button
-    private lateinit var inventory_Button: Button
+    private lateinit var game_Button: Button
+    private lateinit var about_Button: Button
     fun start() {
         cashier_Button = findViewById(R.id.cashier_Button)
-        inventory_Button = findViewById(R.id.inventory_Button)
+        game_Button = findViewById(R.id.game_Button)
+        about_Button = findViewById(R.id.about_Button)
 
         cashier_Button.setOnClickListener {
-            val intent = Intent(this, Cashier::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ActivityProductivity::class.java))
         }
-
-        inventory_Button.setOnClickListener {
-            val intent = Intent(this, Inventory::class.java)
-            startActivity(intent)
+        game_Button.setOnClickListener {
+            startActivity(Intent(this, ActivityGame::class.java))
+        }
+        about_Button.setOnClickListener {
+            startActivity(Intent(this, ActivityAbout::class.java))
         }
     }
 }

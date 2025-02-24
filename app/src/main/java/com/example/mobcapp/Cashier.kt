@@ -42,22 +42,10 @@ class Cashier : AppCompatActivity() {
         giveOrders_Button = findViewById(R.id.giveOrders_Button)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        update()
+//        update()
 
         itemDatabase.dropTable()
-        itemDatabase.insertData(
-            name = "Burger",
-            image = "items/burger.png",
-            info = "A gigantic burger of doom!",
-            price = 9.99,
-            ordered = 0,
-            descLong = "This burger is so big it has its own gravitational pull.",
-            calories = 1200,
-            ingredients = listOf(
-                Ingredient("Buns", 2),
-                Ingredient("Patty", 1),
-                Ingredient("Ketchup", 10) // Because you're an absolute mad lad
-        ))
+        itemDatabase.sampleInsert()
         customerDatabase.dropTable()
         customerDatabase.sampleInsert()
         customerPrefsDatabase.dropTable()
@@ -67,31 +55,32 @@ class Cashier : AppCompatActivity() {
             ordered = if (ordered == 0) 1 else 0
             viewOrders_Button.text = if (ordered == 0) "View Orders" else "View Menu"
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, (ordered != 0))
-            update()
+//            update()
         }
     }
 
-    fun update() {
-        val adapter = SampleAdapter(this, itemDatabase.getOrderedData(ordered), itemDatabase, this) { item ->
-            if (item.ordered == 0) {
-                itemDatabase.insertData(
-                    item.name,
-                    item.image,
-                    item.desc,
-                    item.price,
-                    ordered = 1,
-                    item.descLong,
-                    item.calories,
-                    item.ingredients
-                )
-                Snackbar.make(findViewById(android.R.id.content), "${item.name} added to cart", Snackbar.LENGTH_SHORT).show()
-            }
-            updateTextViews()
-
-        }
-
-        recyclerView.adapter = adapter
-    }
+//    fun update() {
+//        val adapter = SampleAdapter(this, itemDatabase.getOrderedData(ordered), itemDatabase, this) { item ->
+//            if (item.ordered == 0) {
+//                itemDatabase.insertData(
+//                    item.name,
+//                    item.image,
+//                    item.desc,
+//                    item.price,
+//                    ordered = 1,
+//                    item.descLong,
+//                    item.calories,
+//                    item.grams,
+//                    item.ingredients
+//                )
+//                Snackbar.make(findViewById(android.R.id.content), "${item.name} added to cart", Snackbar.LENGTH_SHORT).show()
+//            }
+//            updateTextViews()
+//
+//        }
+//
+//        recyclerView.adapter = adapter
+//    }
 
     fun updateTextViews() {
         val orders = itemDatabase.getOrderedData(1)

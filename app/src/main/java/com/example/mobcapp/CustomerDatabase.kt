@@ -111,19 +111,59 @@ class CustomerDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
     }
 
     fun sampleInsert() {
-        val result = insertData(
+        for (i in 1..100) insertData(
             ordering = 0,
-            name = "Mr. Sample",
-            image = listOf("customer/sample/neutral.png", "customer/sample/happy.png", "customer/sample/unhappy.png"),
+            name = "Customer Sample $i",
+            image = listOf("customer/sample1/neutral.png", "customer/sample1/happy.png", "customer/sample1/unhappy.png"),
             dialogIntro = listOf("Hello!", "I'm starving!"),
             dialogOutro = listOf("Thanks!", "That was great!"),
             dialogFiller = listOf("Hmm...", "Let me think...")
         )
+    }
 
-        if (result == -1L) {
-            println("💀 FAILED TO INSERT CUSTOMER!")
-        } else {
-            println("🔥 SUCCESS! INSERTED CUSTOMER ID: $result")
+    fun getRandomCustomer(): CustomerDataClass? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COLUMN_ORDERING = 0 ORDER BY RANDOM() LIMIT 1", null)
+
+        var customer: CustomerDataClass? = null
+
+        if (cursor.moveToFirst()) {
+            customer = CustomerDataClass(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                ordering = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDERING)),
+                name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
+                image = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE))),
+                dialogIntro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_INTRO))),
+                dialogOutro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_OUTRO))),
+                dialogFiller = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_FILLER)))
+            )
         }
+
+        cursor.close()
+        db.close()
+        return customer
+    }
+
+    fun getCustomerByName(name: String): CustomerDataClass? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COLUMN_NAME = ?", arrayOf(name))
+
+        var customer: CustomerDataClass? = null
+
+        if (cursor.moveToFirst()) {
+            customer = CustomerDataClass(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                ordering = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDERING)),
+                name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
+                image = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE))),
+                dialogIntro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_INTRO))),
+                dialogOutro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_OUTRO))),
+                dialogFiller = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_FILLER)))
+            )
+        }
+
+        cursor.close()
+        db.close()
+        return customer
     }
 }

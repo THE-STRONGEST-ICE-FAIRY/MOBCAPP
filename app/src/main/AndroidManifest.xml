@@ -13,6 +13,18 @@
         android:theme="@style/Theme.MOBCAPP"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityProductivity"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityAbout"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityGameOver"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityGame"
+            android:exported="false" />
+        <activity
             android:name=".SampleList"
             android:exported="false" />
         <activity
@@ -22,7 +34,7 @@
             android:name=".Cashier"
             android:exported="false" />
         <activity
-            android:name=".MainMenu"
+            android:name=".ActivityMainMenu"
             android:exported="false" />
         <activity
             android:name=".IntroCustomer"

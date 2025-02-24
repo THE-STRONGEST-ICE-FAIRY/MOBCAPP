@@ -16,7 +16,7 @@ class SampleAdapter(
     private val context: Context,
     private val itemList: List<ItemsDataClass>,
     private val itemDatabase: ItemsDatabase,
-    private val cashier: Cashier,
+    private val cashier: ActivityGame,
     private val onItemClick: (ItemsDataClass) -> Unit  // Click listener
 ) : RecyclerView.Adapter<SampleAdapter.ViewHolder>() {
 

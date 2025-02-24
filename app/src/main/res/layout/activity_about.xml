@@ -5,30 +5,31 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/layout_margin"
     android:orientation="vertical"
-    tools:context=".ActivityMainMenu">
+    tools:context=".ActivityAbout">
 
     <TextView
-        android:id="@+id/sample_TextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MainMenu" />
+        android:text="About this app" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Burunyuu" />
 
     <Button
-        android:id="@+id/cashier_Button"
+        android:id="@+id/button_LabAct3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cashier" />
+        android:text="Laboratory Activity 3" />
 
     <Button
-        android:id="@+id/game_Button"
+        android:id="@+id/button_MainMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play" />
-
-    <Button
-        android:id="@+id/about_Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="About" />
+        android:text="Main Menu" />
 </LinearLayout>

@@ -33,9 +33,10 @@ class MainActivity : AppCompatActivity() {
         val hasCompleted = sharedPreferences.getBoolean("hasCompletedOnboarding", false)
         if (!hasCompleted) {
             start()
+            sharedPreferences.edit().putBoolean("hasCompletedOnboarding", true).apply()
         }
         else {
-            val intent = Intent(this, MainMenu::class.java)
+            val intent = Intent(this, ActivityMainMenu::class.java)
             startActivity(intent)
         }
     }
@@ -185,7 +186,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         completeOrder_Button.setOnClickListener {
-            val intent = Intent(this, IntroCustomer::class.java)
+            val intent = Intent(this, ActivityMainMenu::class.java)
             startActivity(intent)
 
 //            val selectedMeal = meals_Spinner.selectedItem.toString()

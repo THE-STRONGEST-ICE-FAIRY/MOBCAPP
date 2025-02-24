@@ -19,6 +19,7 @@ class ItemsDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
                 "$COLUMN_ORDERED INTEGER, " +
                 "$COLUMN_DESC_LONG TEXT, " +
                 "$COLUMN_CALORIES INTEGER, " +
+                "$COLUMN_GRAMS DOUBLE, " +
                 "$COLUMN_INGREDIENTS TEXT)" // Storing JSON string
         db.execSQL(createTableQuery)
     }
@@ -30,7 +31,7 @@ class ItemsDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
 
     fun insertData(
         name: String, image: String, info: String, price: Double, ordered: Int,
-        descLong: String, calories: Int, ingredients: List<Ingredient>
+        descLong: String, calories: Int, grams: Double, ingredients: List<Ingredient>
     ): Long {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -41,11 +42,29 @@ class ItemsDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
             put(COLUMN_ORDERED, ordered)
             put(COLUMN_DESC_LONG, descLong)
             put(COLUMN_CALORIES, calories)
+            put(COLUMN_GRAMS, grams)
             put(COLUMN_INGREDIENTS, ingredientsToJson(ingredients)) // Convert list to JSON
         }
         val result = db.insert(TABLE_NAME, null, values)
         db.close()
         return result
+    }
+
+    fun sampleInsert() {
+        insertData(
+            name = "Burger",
+            image = "items/burger.png",
+            info = "A gigantic burger of doom!",
+            price = 9.99,
+            ordered = 0,
+            descLong = "This burger is so big it has its own gravitational pull.",
+            calories = 1200,
+            grams =  50.0,
+            ingredients = listOf(
+                Ingredient("Buns", 2),
+                Ingredient("Patty", 1),
+                Ingredient("Ketchup", 10) // Because you're an absolute mad lad
+        ))
     }
 
     fun getAllData(): List<ItemsDataClass> {
@@ -65,6 +84,7 @@ class ItemsDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
                         price = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PRICE)),
                         descLong = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESC_LONG)),
                         calories = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CALORIES)),
+                        grams = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_GRAMS)),
                         ingredients = jsonToIngredients(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_INGREDIENTS))) // Convert JSON back to list
                     )
                 )
@@ -93,6 +113,7 @@ class ItemsDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
                         price = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PRICE)),
                         descLong = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESC_LONG)),
                         calories = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CALORIES)),
+                        grams = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_GRAMS)),
                         ingredients = jsonToIngredients(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_INGREDIENTS)))
                     )
                 )
@@ -104,21 +125,21 @@ class ItemsDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         return itemList
     }
 
-    fun updateData(
-        id: Int, name: String, image: String, descLong: String, calories: Int, ingredients: List<Ingredient>
-    ): Int {
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_NAME, name)
-            put(COLUMN_IMAGE, image)
-            put(COLUMN_DESC_LONG, descLong)
-            put(COLUMN_CALORIES, calories)
-            put(COLUMN_INGREDIENTS, ingredientsToJson(ingredients)) // Convert list to JSON
-        }
-        val result = db.update(TABLE_NAME, values, "$COLUMN_ID=?", arrayOf(id.toString()))
-        db.close()
-        return result
-    }
+//    fun updateData(
+//        id: Int, name: String, image: String, descLong: String, calories: Int, ingredients: List<Ingredient>
+//    ): Int {
+//        val db = this.writableDatabase
+//        val values = ContentValues().apply {
+//            put(COLUMN_NAME, name)
+//            put(COLUMN_IMAGE, image)
+//            put(COLUMN_DESC_LONG, descLong)
+//            put(COLUMN_CALORIES, calories)
+//            put(COLUMN_INGREDIENTS, ingredientsToJson(ingredients)) // Convert list to JSON
+//        }
+//        val result = db.update(TABLE_NAME, values, "$COLUMN_ID=?", arrayOf(id.toString()))
+//        db.close()
+//        return result
+//    }
 
     fun deleteData(id: Int): Int {
         val db = this.writableDatabase
@@ -169,6 +190,7 @@ class ItemsDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         private const val COLUMN_ORDERED = "ordered"
         private const val COLUMN_DESC_LONG = "descLong"
         private const val COLUMN_CALORIES = "calories"
+        private const val COLUMN_GRAMS = "grams"
         private const val COLUMN_INGREDIENTS = "ingredients"
     }
 }

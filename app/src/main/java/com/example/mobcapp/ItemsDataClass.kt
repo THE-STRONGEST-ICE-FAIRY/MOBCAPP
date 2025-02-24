@@ -9,5 +9,6 @@ data class ItemsDataClass(
     val desc: String,
     val descLong: String,
     val calories: Int,
+    val grams: Double,
     val ingredients: List<Ingredient>,
 )

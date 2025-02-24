@@ -132,7 +132,7 @@ class IntroCustomer : AppCompatActivity() {
 
                 handler.postDelayed({ okButton.isEnabled = true }, 2000) // **Enable after 2 seconds**
 
-                val intent = Intent(this, MainMenu::class.java)
+                val intent = Intent(this, ActivityMainMenu::class.java)
                 startActivity(intent)
             }
         }
