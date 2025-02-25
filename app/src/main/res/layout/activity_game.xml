@@ -48,157 +48,156 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/customer1_CardView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="10dp">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/customer1_CardView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/customerImage1_ImageView"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:padding="25dp"
-                        tools:srcCompat="@tools:sample/avatars" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/customerName1_TextView"
+                        <ImageView
+                            android:id="@+id/customerImage1_ImageView"
+                            android:layout_width="180dp"
+                            android:layout_height="180dp"
+                            android:padding="25dp"
+                            tools:srcCompat="@tools:sample/avatars" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Customer Name" />
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/customerTimer1_TextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Customer Timer" />
+                            <TextView
+                                android:id="@+id/customerName1_TextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Customer Name" />
 
-                        <Button
-                            android:id="@+id/dropCustomer1_Button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Drop Customer" />
+                            <TextView
+                                android:id="@+id/customerTimer1_TextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Customer Timer" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/customer2_CardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="10dp">
-
-                <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/customer2_CardView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/customerImage2_ImageView"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:padding="25dp"
-                        tools:srcCompat="@tools:sample/avatars" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/customerName2_TextView"
+                        <ImageView
+                            android:id="@+id/customerImage2_ImageView"
+                            android:layout_width="180dp"
+                            android:layout_height="180dp"
+                            android:padding="25dp"
+                            tools:srcCompat="@tools:sample/avatars" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Customer Name" />
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/customerTimer2_TextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Customer Timer" />
+                            <TextView
+                                android:id="@+id/customerName2_TextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Customer Name" />
 
-                        <Button
-                            android:id="@+id/dropCustomer2_Button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Drop Customer" />
+                            <TextView
+                                android:id="@+id/customerTimer2_TextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Customer Timer" />
+
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/customer3_CardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="10dp">
-
-                <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/customer3_CardView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/customerImage3_ImageView"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:padding="25dp"
-                        tools:srcCompat="@tools:sample/avatars" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/customerName3_TextView"
+                        <ImageView
+                            android:id="@+id/customerImage3_ImageView"
+                            android:layout_width="180dp"
+                            android:layout_height="180dp"
+                            android:padding="25dp"
+                            tools:srcCompat="@tools:sample/avatars" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Customer Name" />
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/customerTimer3_TextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Customer Timer" />
+                            <TextView
+                                android:id="@+id/customerName3_TextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Customer Name" />
 
-                        <Button
-                            android:id="@+id/dropCustomer3_Button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Drop Customer" />
+                            <TextView
+                                android:id="@+id/customerTimer3_TextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Customer Timer" />
+
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_Forfeit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Forfeit" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -304,9 +303,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_Menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/customerTimerMenu_TextView"
@@ -364,7 +365,7 @@
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent">
 
                     <Button
                         android:id="@+id/viewOrders_Button"
@@ -375,6 +376,58 @@
                 </TableRow>
 
             </TableLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/imageView_ItemDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView_Item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_ItemName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView_ItemPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView_ItemDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView_ItemLongDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_ItemBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
 
         </LinearLayout>
 

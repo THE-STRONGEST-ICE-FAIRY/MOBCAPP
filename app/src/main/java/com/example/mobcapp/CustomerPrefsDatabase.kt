@@ -10,12 +10,15 @@ import com.google.gson.reflect.TypeToken
 class CustomerPrefsDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        val createTableQuery = "CREATE TABLE $TABLE_NAME (" +
-                "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$COLUMN_NAME TEXT, " +
-                "$COLUMN_EASY TEXT, " +
-                "$COLUMN_MEDIUM TEXT, " +
-                "$COLUMN_HARD TEXT)"
+        val createTableQuery = """
+            CREATE TABLE $TABLE_NAME (
+                $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, 
+                $COLUMN_NAME TEXT, 
+                $COLUMN_EASY TEXT,  -- Store JSON List<Pair<String, Double>>
+                $COLUMN_MEDIUM TEXT, -- Store JSON Pair<String, EqualizerDataClass>
+                $COLUMN_HARD TEXT -- Store JSON Pair<String, EqualizerDataClass>
+            )
+        """.trimIndent()
         db.execSQL(createTableQuery)
     }
 
@@ -26,20 +29,41 @@ class CustomerPrefsDatabase(context: Context) : SQLiteOpenHelper(context, DATABA
 
     fun insertData(
         name: String?,
-        easy: Map<String, Double>?,
-        medium: Map<String, List<EqualizerDataClass>>?,
-        hard: Map<String, List<EqualizerDataClass>>?
+        easy: List<Pair<String, Double>>?,
+        medium: Pair<String, EqualizerDataClass>?,
+        hard: Pair<String, EqualizerDataClass>?
     ): Long {
         val db = this.writableDatabase
         val values = ContentValues().apply {
             put(COLUMN_NAME, name)
-            put(COLUMN_EASY, mapToJson(easy))
-            put(COLUMN_MEDIUM, mapToJson(medium))
-            put(COLUMN_HARD, mapToJson(hard))
+            put(COLUMN_EASY, listToJson(easy)) // Convert List<Pair<String, Double>> to JSON
+            put(COLUMN_MEDIUM, pairToJson(medium)) // Convert Pair<String, EqualizerDataClass> to JSON
+            put(COLUMN_HARD, pairToJson(hard)) // Convert Pair<String, EqualizerDataClass> to JSON
         }
         val result = db.insert(TABLE_NAME, null, values)
         db.close()
         return result
+    }
+
+    fun getRandomCustomer(): CustomerPrefsDataClass? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME ORDER BY RANDOM() LIMIT 1", null)
+
+        var customer: CustomerPrefsDataClass? = null
+
+        if (cursor.moveToFirst()) {
+            customer = CustomerPrefsDataClass(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
+                easy = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EASY))),
+                medium = jsonToPair(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MEDIUM))),
+                hard = jsonToPair(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_HARD)))
+            )
+        }
+
+        cursor.close()
+        db.close()
+        return customer
     }
 
     fun getAllData(): List<CustomerPrefsDataClass> {
@@ -53,9 +77,9 @@ class CustomerPrefsDatabase(context: Context) : SQLiteOpenHelper(context, DATABA
                     CustomerPrefsDataClass(
                         id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
                         name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
-                        easy = jsonToMap(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EASY))),
-                        medium = jsonToMap(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MEDIUM))),
-                        hard = jsonToMap(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_HARD)))
+                        easy = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EASY))),
+                        medium = jsonToPair(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MEDIUM))),
+                        hard = jsonToPair(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_HARD)))
                     )
                 )
             } while (cursor.moveToNext())
@@ -79,51 +103,71 @@ class CustomerPrefsDatabase(context: Context) : SQLiteOpenHelper(context, DATABA
         onCreate(db)
     }
 
-    companion object {
-        private const val DATABASE_NAME = "CustomerPrefsDatabase.db"
-        private const val DATABASE_VERSION = 1
-        private const val TABLE_NAME = "CustomerPreferences"
-        private const val COLUMN_ID = "id"
-        private const val COLUMN_NAME = "name"
-        private const val COLUMN_EASY = "easy"
-        private const val COLUMN_MEDIUM = "medium"
-        private const val COLUMN_HARD = "hard"
+    // JSON Conversion Functions
+    fun <T> toJson(obj: T): String {
+        return Gson().toJson(obj)
     }
 
-    fun <K, V> mapToJson(map: Map<K, V>?): String {
-        return Gson().toJson(map ?: emptyMap<K, V>())
-    }
-
-    inline fun <reified K, reified V> jsonToMap(json: String?): Map<K, V> {
+    fun <T> fromJson(json: String?, type: TypeToken<T>): T {
         return json?.takeIf { it.isNotEmpty() }?.let {
-            Gson().fromJson(it, object : TypeToken<Map<K, V>>() {}.type)
-        } ?: emptyMap()
+            Gson().fromJson(it, type.type)
+        } ?: throw IllegalArgumentException("Invalid JSON")
     }
 
+    fun listToJson(list: List<Pair<String, Double>>?): String {
+        return toJson(list ?: emptyList())
+    }
+
+    fun jsonToList(json: String?): List<Pair<String, Double>> {
+        return fromJson(json, object : TypeToken<List<Pair<String, Double>>>() {})
+    }
+
+    fun pairToJson(pair: Pair<String, EqualizerDataClass>?): String {
+        return toJson(pair ?: Pair("", EqualizerDataClass(0)))
+    }
+
+    fun jsonToPair(json: String?): Pair<String, EqualizerDataClass> {
+        return fromJson(json, object : TypeToken<Pair<String, EqualizerDataClass>>() {})
+    }
+
+    // Sample Data Insert
     fun sampleInsert() {
-        val easyPrefs = mapOf(
-            "Cake" to 0.5,
-            "Ice Cream" to 0.2
+        val easyPrefs = listOf(
+            "Cheesy Burger" to 0.5,
+            "Cheesy Fry Bucket" to 0.2,
+            "Milktea" to 0.4,
         )
 
-        val mediumPrefs = mapOf(
-            "Spicy" to listOf(EqualizerDataClass(
-                id = 2,
-                items = mapOf("Spicy Noodles" to 1),
-                timeMin = 5,
-                timeMax = 10
-            ))
+        val mediumPrefs = "Spicy" to EqualizerDataClass(
+            id = 2,
+            items = listOf("Spicy Noodles" to 1),
+            timeMin = 5,
+            timeMax = 10
         )
 
-        val hardPrefs = mapOf(
-            "Impossible" to listOf(EqualizerDataClass(
-                id = 3,
-                items = mapOf("Ghost Pepper Wings" to 2),
-                customerTimeLeftMin = 1,
-                customerTimeLeftMax = 5,
-                salesMin = 0,
-                salesMax = 10
-            ))
+        val hardPrefs = "Impossible" to EqualizerDataClass(
+            id = 1,
+            items = listOf("Cheesy Burger" to 2, "Milktea" to 1, "Classic Fry Bucket" to 1),
+            itemsCountMin = 1,
+            itemsCountMax = 5,
+            priceMin = 10.0,
+            priceMax = 50.0,
+            ingredient = listOf(
+                Ingredient(name = "Lettuce", quantity = 2),
+                Ingredient(name = "Tomato", quantity = 1)
+            ),
+            ingredientsCountMin = 1,
+            ingredientsCountMax = 4,
+            caloriesMin = 200,
+            caloriesMax = 1200,
+            timeMin = 5,
+            timeMax = 30,
+            customerTimeLeftMin = 10,
+            customerTimeLeftMax = 60,
+            salesMin = 5.0,
+            salesMax = 50.0,
+            gramsMin = 100.0,
+            gramsMax = 500.0
         )
 
         val result = insertData(
@@ -134,9 +178,20 @@ class CustomerPrefsDatabase(context: Context) : SQLiteOpenHelper(context, DATABA
         )
 
         if (result == -1L) {
-            println("💀 FAILED TO INSERT CUSTOMER PREFERENCES!")
+            println("🔥 FAILED TO INSERT CUSTOMER PREFERENCES!")
         } else {
-            println("🔥 SUCCESS! INSERTED PREFERENCES FOR CUSTOMER ID: $result")
+            println("🎉 SUCCESS! INSERTED PREFERENCES FOR CUSTOMER ID: $result")
         }
+    }
+
+    companion object {
+        private const val DATABASE_NAME = "CustomerPrefsDatabase.db"
+        private const val DATABASE_VERSION = 1
+        private const val TABLE_NAME = "CustomerPreferences"
+        private const val COLUMN_ID = "id"
+        private const val COLUMN_NAME = "name"
+        private const val COLUMN_EASY = "easy"
+        private const val COLUMN_MEDIUM = "medium"
+        private const val COLUMN_HARD = "hard"
     }
 }

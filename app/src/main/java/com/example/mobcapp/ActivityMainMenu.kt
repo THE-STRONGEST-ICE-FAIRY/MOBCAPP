@@ -26,6 +26,19 @@ class ActivityMainMenu : AppCompatActivity() {
             }
         })
 
+        val itemDatabase by lazy { ItemsDatabase(this) }
+        val customerDatabase by lazy { CustomerDatabase(this) }
+        val customerPrefsDatabase by lazy { CustomerPrefsDatabase(this) }
+        val leaderboardDatabaseHelper by lazy { LeaderboardDatabaseHelper(this) }
+//        itemDatabase.dropTable()
+//        itemDatabase.sampleInsert()
+        customerDatabase.dropTable()
+        customerDatabase.sampleInsert()
+        customerPrefsDatabase.dropTable()
+        customerPrefsDatabase.sampleInsert()
+
+//        leaderboardDatabaseHelper.clearLeaderboard()
+
         start()
     }
 
@@ -41,7 +54,7 @@ class ActivityMainMenu : AppCompatActivity() {
             startActivity(Intent(this, ActivityProductivity::class.java))
         }
         game_Button.setOnClickListener {
-            startActivity(Intent(this, ActivityGame::class.java))
+            startActivity(Intent(this, ActivityGameDifficulty::class.java))
         }
         about_Button.setOnClickListener {
             startActivity(Intent(this, ActivityAbout::class.java))

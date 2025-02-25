@@ -43,6 +43,7 @@ class SampleAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val id = itemList[position].id
         val ordered = itemList[position].ordered
+        val longDesc = itemList[position].descLong
         holder.textView.text = itemList[position].name
         holder.desc.text = itemList[position].desc
         holder.price.text = String.format(Locale.US, "$%.2f", itemList[position].price)
@@ -52,9 +53,17 @@ class SampleAdapter(
         holder.imageButton.setOnClickListener {
             if (ordered == 1) {
                 itemDatabase.deleteData(itemList[position].id)
-                Snackbar.make(it, "${holder.textView.text} removed from cart", Snackbar.LENGTH_SHORT).show()
+//                Snackbar.make(it, "${holder.textView.text} removed from cart", Snackbar.LENGTH_SHORT).show()
             }
-            cashier.update()
+            else {
+                cashier.layout_Menu.visibility = View.GONE
+                cashier.imageView_Item.setImageDrawable(holder.image.drawable)
+                cashier.textView_ItemName.text = holder.textView.text
+                cashier.textView_ItemPrice.text = holder.price.text
+                cashier.textView_ItemDesc.text = holder.desc.text
+                cashier.textView_ItemLongDesc.text = longDesc
+            }
+            cashier.update(0)
             cashier.updateTextViews()
 
         }

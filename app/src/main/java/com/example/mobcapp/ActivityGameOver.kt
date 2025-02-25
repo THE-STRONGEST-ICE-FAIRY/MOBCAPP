@@ -42,9 +42,9 @@ class ActivityGameOver : AppCompatActivity() {
     private lateinit var buttonConfirmName: Button
     private lateinit var leaderboardsLayout: LinearLayout
     private lateinit var recyclerViewLeaderboards: RecyclerView
-    private lateinit var buttonBackToMainMenu: Button
     private lateinit var leaderboardAdapter: LeaderboardAdapter
     private lateinit var databaseHelper: LeaderboardDatabaseHelper
+    private lateinit var buttonBackToMainMenu: Button
 
     private fun init() {
         scoreDisplay = findViewById(R.id.textView_ScoreDisplay)
@@ -53,11 +53,11 @@ class ActivityGameOver : AppCompatActivity() {
         buttonConfirmName = findViewById(R.id.button_ConfirmName)
         leaderboardsLayout = findViewById(R.id.layout_Leaderboards)
         recyclerViewLeaderboards = findViewById(R.id.recyclerView_Leaderboards)
+        databaseHelper = LeaderboardDatabaseHelper(this)
         buttonBackToMainMenu = findViewById(R.id.button_BackToMainMenu)
 
         leaderboardsLayout.visibility = View.GONE
 
-        databaseHelper = LeaderboardDatabaseHelper(this)
 
         leaderboardAdapter = LeaderboardAdapter(emptyList())
         recyclerViewLeaderboards.layoutManager = LinearLayoutManager(this)

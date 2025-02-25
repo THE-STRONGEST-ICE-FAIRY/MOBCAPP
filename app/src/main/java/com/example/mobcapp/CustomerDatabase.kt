@@ -17,7 +17,9 @@ class CustomerDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
                 "$COLUMN_IMAGE TEXT, " +
                 "$COLUMN_DIALOG_INTRO TEXT, " +
                 "$COLUMN_DIALOG_OUTRO TEXT, " +
-                "$COLUMN_DIALOG_FILLER TEXT)"
+                "$COLUMN_DIALOG_FILLER TEXT, " +
+                "$COLUMN_DIALOG_GOOD TEXT, " +
+                "$COLUMN_DIALOG_BAD TEXT)"
         db.execSQL(createTableQuery)
     }
 
@@ -30,18 +32,22 @@ class CustomerDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         ordering: Int?,
         name: String?,
         image: List<String>?,
-        dialogIntro: List<String>?,
-        dialogOutro: List<String>?,
-        dialogFiller: List<String>?
+        dialogIntro: String?,
+        dialogOutro: String?,
+        dialogFiller: String?,
+        dialogGood: String?,
+        dialogBad: String?,
     ): Long {
         val db = this.writableDatabase
         val values = ContentValues().apply {
             put(COLUMN_ORDERING, ordering)
             put(COLUMN_NAME, name)
             put(COLUMN_IMAGE, listToJson(image))
-            put(COLUMN_DIALOG_INTRO, listToJson(dialogIntro))
-            put(COLUMN_DIALOG_OUTRO, listToJson(dialogOutro))
-            put(COLUMN_DIALOG_FILLER, listToJson(dialogFiller))
+            put(COLUMN_DIALOG_INTRO, dialogIntro)
+            put(COLUMN_DIALOG_OUTRO, dialogOutro)
+            put(COLUMN_DIALOG_FILLER, dialogFiller)
+            put(COLUMN_DIALOG_GOOD, dialogGood)
+            put(COLUMN_DIALOG_BAD, dialogBad)
         }
         val result = db.insert(TABLE_NAME, null, values)
         db.close()
@@ -61,9 +67,11 @@ class CustomerDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
                         ordering = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDERING)),
                         name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
                         image = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE))),
-                        dialogIntro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_INTRO))),
-                        dialogOutro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_OUTRO))),
-                        dialogFiller = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_FILLER)))
+                        dialogIntro = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_INTRO)),
+                        dialogOutro = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_OUTRO)),
+                        dialogFiller = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_FILLER)),
+                        dialogGood = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_GOOD)),
+                        dialogBad = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_BAD)),
                     )
                 )
             } while (cursor.moveToNext())
@@ -98,6 +106,8 @@ class CustomerDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         private const val COLUMN_DIALOG_INTRO = "dialog_intro"
         private const val COLUMN_DIALOG_OUTRO = "dialog_outro"
         private const val COLUMN_DIALOG_FILLER = "dialog_filler"
+        private const val COLUMN_DIALOG_GOOD = "dialog_good"
+        private const val COLUMN_DIALOG_BAD = "dialog_bad"
     }
 
     fun listToJson(list: List<String>?): String {
@@ -115,9 +125,11 @@ class CustomerDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
             ordering = 0,
             name = "Customer Sample $i",
             image = listOf("customer/sample1/neutral.png", "customer/sample1/happy.png", "customer/sample1/unhappy.png"),
-            dialogIntro = listOf("Hello!", "I'm starving!"),
-            dialogOutro = listOf("Thanks!", "That was great!"),
-            dialogFiller = listOf("Hmm...", "Let me think...")
+            dialogIntro = "Hello!",
+            dialogOutro = "Thanks!",
+            dialogFiller = "Hmm...",
+            dialogGood = "Nice!",
+            dialogBad = "Eh...",
         )
     }
 
@@ -133,9 +145,11 @@ class CustomerDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
                 ordering = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDERING)),
                 name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
                 image = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE))),
-                dialogIntro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_INTRO))),
-                dialogOutro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_OUTRO))),
-                dialogFiller = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_FILLER)))
+                dialogIntro = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_INTRO)),
+                dialogOutro = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_OUTRO)),
+                dialogFiller = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_FILLER)),
+                dialogGood = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_GOOD)),
+                dialogBad = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_BAD)),
             )
         }
 
@@ -156,9 +170,11 @@ class CustomerDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
                 ordering = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDERING)),
                 name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
                 image = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE))),
-                dialogIntro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_INTRO))),
-                dialogOutro = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_OUTRO))),
-                dialogFiller = jsonToList(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_FILLER)))
+                dialogIntro = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_INTRO)),
+                dialogOutro = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_OUTRO)),
+                dialogFiller = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_FILLER)),
+                dialogGood = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_GOOD)),
+                dialogBad = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIALOG_BAD)),
             )
         }
 

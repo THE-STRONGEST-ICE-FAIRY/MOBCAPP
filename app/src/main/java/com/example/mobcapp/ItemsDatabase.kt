@@ -67,6 +67,46 @@ class ItemsDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         ))
     }
 
+    fun deleteOrdered() {
+        val db = this.writableDatabase
+        db.delete(TABLE_NAME, "$COLUMN_ORDERED = ?", arrayOf("1"))
+        db.close()
+    }
+
+    fun compileOrderedToEqualizer(): EqualizerDataClass {
+        val orderedItems = getOrderedData(1) // Get all items where ordered = 1
+
+        // Aggregate data
+        val itemPairs = orderedItems.map { it.name to it.ordered }
+//        val ingredients = orderedItems.flatMap { it.ingredients }.groupingBy { it.name }
+//            .aggregate { _, accumulator: Ingredient?, element, _ ->
+//                accumulator?.copy(quantity = accumulator.quantity + element.quantity) ?: element
+//            }.values.toList()
+//
+//        val priceMin = orderedItems.minOfOrNull { it.price }
+//        val priceMax = orderedItems.maxOfOrNull { it.price }
+//        val caloriesMin = orderedItems.minOfOrNull { it.calories }
+//        val caloriesMax = orderedItems.maxOfOrNull { it.calories }
+//        val gramsMin = orderedItems.minOfOrNull { it.grams }
+//        val gramsMax = orderedItems.maxOfOrNull { it.grams }
+
+        return EqualizerDataClass(
+            id = null, // No specific ID needed
+            items = itemPairs,
+//            itemsCountMin = itemPairs.minOfOrNull { it.second },
+//            itemsCountMax = itemPairs.maxOfOrNull { it.second },
+//            priceMin = priceMin,
+//            priceMax = priceMax,
+//            ingredient = ingredients,
+//            ingredientsCountMin = ingredients.minOfOrNull { it.quantity },
+//            ingredientsCountMax = ingredients.maxOfOrNull { it.quantity },
+//            caloriesMin = caloriesMin,
+//            caloriesMax = caloriesMax,
+//            gramsMin = gramsMin,
+//            gramsMax = gramsMax
+        )
+    }
+
     fun getAllData(): List<ItemsDataClass> {
         val itemList = mutableListOf<ItemsDataClass>()
         val db = this.readableDatabase
