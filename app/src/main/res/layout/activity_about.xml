@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/linearLayout_GameDifficulty"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/layout_margin"
@@ -13,23 +13,36 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="About this app" />
+        android:text="About this app"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Burunyuu" />
+        android:layout_weight="1"
+        android:text="Burunyuu"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/imageView_Credits"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/button_LabAct3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:text="Laboratory Activity 3" />
 
     <Button
         android:id="@+id/button_MainMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:text="Main Menu" />
 </LinearLayout>

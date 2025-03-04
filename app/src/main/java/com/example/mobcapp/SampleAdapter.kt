@@ -49,6 +49,7 @@ class SampleAdapter(
         holder.price.text = String.format(Locale.US, "$%.2f", itemList[position].price)
         holder.image.setImageDrawable(Drawable.createFromStream(context.assets.open(itemList[position].image), null))
         holder.imageButton.setImageDrawable(Drawable.createFromStream(context.assets.open(if (ordered == 0) "utility/moreinfo.png" else "utility/delete.png"), null))
+        holder.imageButton.isEnabled = ordered != 0
 
         holder.imageButton.setOnClickListener {
             if (ordered == 1) {

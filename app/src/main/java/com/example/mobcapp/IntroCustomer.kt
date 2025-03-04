@@ -64,7 +64,7 @@ class IntroCustomer : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_intro_customer)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.linearLayout_GameDifficulty)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets

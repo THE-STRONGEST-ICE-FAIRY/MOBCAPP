@@ -2,15 +2,18 @@ package com.example.mobcapp
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +22,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobcapp.ClickEffect.applyClickEffect
 import kotlin.random.Random
 
 class ActivityGame : AppCompatActivity() {
@@ -26,7 +30,7 @@ class ActivityGame : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_game)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.linearLayout_Game)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -39,7 +43,6 @@ class ActivityGame : AppCompatActivity() {
         })
 
         init()
-        loop()
     }
 
     var difficulty = 0
@@ -49,7 +52,7 @@ class ActivityGame : AppCompatActivity() {
     private lateinit var gameTimer_TextView: TextView
     var gameTimer_Long = 0
 
-    private lateinit var button_Forfeit: Button
+    private lateinit var button_Forfeit: ImageButton
 
     private lateinit var customer1_CardView: CardView
     private lateinit var customer2_CardView: CardView
@@ -132,7 +135,13 @@ class ActivityGame : AppCompatActivity() {
     lateinit var textView_ItemLongDesc: TextView
     private lateinit var button_ItemBack: Button
 
+    lateinit var linearLayout_Game: LinearLayout
+
     private fun init() {
+
+        linearLayout_Game = findViewById(R.id.linearLayout_Game)
+        linearLayout_Game.background = Drawable.createFromStream(assets.open("gui/MainMenuBackground.png"), null)
+
         difficulty = intent.getIntExtra("DIFFICULTY", 1)
 
         itemDatabase.deleteOrdered()
@@ -141,7 +150,10 @@ class ActivityGame : AppCompatActivity() {
 
         openShop_Layout = findViewById(R.id.openShop_Layout)
         openShop_Layout.visibility = View.VISIBLE
-        val openShop_Button = findViewById<Button>(R.id.openShop_Button)
+        val openShop_Button = findViewById<ImageButton>(R.id.openShop_Button)
+
+        openShop_Button.setImageDrawable(Drawable.createFromStream(assets.open("gui/OpenShop.png"), null))
+        openShop_Button.applyClickEffect(Color.WHITE, Color.LTGRAY)
 
         openShop_Button.setOnClickListener {
             openShop_Layout.visibility = View.GONE
@@ -150,11 +162,14 @@ class ActivityGame : AppCompatActivity() {
             customerTimer1Duration_Long = 650
             customerTimer2Duration_Long = 680
             customerTimer3Duration_Long = 710
+
+            loop()
         }
 
         gameTimer_TextView = findViewById(R.id.gameTimer_TextView)
 
         button_Forfeit = findViewById(R.id.button_Forfeit)
+        button_Forfeit.setImageDrawable(Drawable.createFromStream(assets.open("gui/GameQuitJob.png"), null))
         button_Forfeit.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Confirmation")
@@ -197,6 +212,9 @@ class ActivityGame : AppCompatActivity() {
         customerServeTimer_TextView = findViewById(R.id.customerServeTimer_TextView)
         customerServeDialogue_TextView = findViewById(R.id.customerServeDialogue_TextView)
 
+        val customerServe_Layout = findViewById<LinearLayout>(R.id.customerServe_Layout)
+        customerServe_Layout.visibility = View.VISIBLE
+
         customer1_CardView.setOnClickListener {
             if (customerTimer1Duration_Long in 1..600) {
                 customerViews_Layout.visibility = View.GONE
@@ -205,6 +223,7 @@ class ActivityGame : AppCompatActivity() {
                 customerServeImage_ImageView.setImageDrawable(customerImage1_ImageView.drawable)
                 customerServeDialogue_TextView.text = weightedRandom(listOf(customer1DialogueIntro_String to 0.5, customer1DialogueFiller_String to 0.4, customer1Dialogue_String to 0.1))
                 customerServeNumber = 1
+                customerServe_Layout.visibility = View.VISIBLE
             }
         }
 
@@ -216,6 +235,7 @@ class ActivityGame : AppCompatActivity() {
                 customerServeImage_ImageView.setImageDrawable(customerImage2_ImageView.drawable)
                 customerServeDialogue_TextView.text = weightedRandom(listOf(customer2DialogueIntro_String to 0.5, customer2DialogueFiller_String to 0.4, customer2Dialogue_String to 0.1))
                 customerServeNumber = 2
+                customerServe_Layout.visibility = View.VISIBLE
             }
         }
 
@@ -227,11 +247,10 @@ class ActivityGame : AppCompatActivity() {
                 customerServeImage_ImageView.setImageDrawable(customerImage3_ImageView.drawable)
                 customerServeDialogue_TextView.text = weightedRandom(listOf(customer3DialogueIntro_String to 0.5, customer3DialogueFiller_String to 0.4, customer3Dialogue_String to 0.1))
                 customerServeNumber = 3
+                customerServe_Layout.visibility = View.VISIBLE
             }
         }
 
-        val customerServe_Layout = findViewById<LinearLayout>(R.id.customerServe_Layout)
-        customerServe_Layout.visibility = View.VISIBLE
 
         backServeCustomer_Button = findViewById(R.id.backServeCustomer_Button)
         backServeCustomer_Button.setOnClickListener {
@@ -286,6 +305,7 @@ class ActivityGame : AppCompatActivity() {
         customerServeMenu_Button.setOnClickListener {
             customerServe_Layout.visibility = View.GONE
 
+            ordered = 0
             update(1)
         }
 
@@ -334,7 +354,7 @@ class ActivityGame : AppCompatActivity() {
             ordered = if (ordered == 0) 1 else 0
             viewOrders_Button.text = if (ordered == 0) "View Orders" else "View Menu"
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, (ordered != 0))
-            update(0)
+            update(1)
         }
 
         backToCustomer_Button.setOnClickListener {
@@ -367,6 +387,9 @@ class ActivityGame : AppCompatActivity() {
                     }
                     customerDone = 1
                     customerImage1_ImageView.setImageDrawable(Drawable.createFromStream(assets.open("customer/customer.png"), null))
+
+//                    Toast.makeText(this, equalizerToListedForm(equalizer.items!!), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, equalizerToListedForm(customer1Equalizer.items!!), Toast.LENGTH_SHORT).show()
                 }
                 2 -> {
                     val a = customer2Equalizer.compareWith(equalizer)
@@ -456,6 +479,8 @@ class ActivityGame : AppCompatActivity() {
 
                 if (gameTimer_Long == 0 && openShop_Layout.visibility == View.GONE) {
                     handler.removeCallbacks(this)
+
+//                    Toast.makeText(customerViews, "message", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(customerViews, ActivityGameOver::class.java).putExtra("SCORE", goldburgs))
                     return
                 }
@@ -473,7 +498,7 @@ class ActivityGame : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (openShop_Layout.visibility == View.GONE) {
+        if (openShop_Layout.visibility == View.GONE && gameTimer_Long != 0) {
             handler.removeCallbacks(runnable)
             startActivity(Intent(this, ActivityMainMenu::class.java))
         }
@@ -481,7 +506,7 @@ class ActivityGame : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (openShop_Layout.visibility == View.GONE) {
+        if (openShop_Layout.visibility == View.GONE && gameTimer_Long != 0) {
             handler.removeCallbacks(runnable)
             startActivity(Intent(this, ActivityMainMenu::class.java))
         }
@@ -489,15 +514,15 @@ class ActivityGame : AppCompatActivity() {
 
     fun updateTimers() {
         gameTimer_Long = maxOf(--gameTimer_Long, 0)
-        gameTimer_TextView.text = "${kotlin.math.ceil(gameTimer_Long / 10.0).toInt()}"
+        gameTimer_TextView.text = "${kotlin.math.ceil(gameTimer_Long / 10.0).toInt()} second/s left"
 
         customerTimer1Duration_Long = if (customerTimer1Duration_Long == 0) 650 else --customerTimer1Duration_Long
         customerTimer2Duration_Long = if (customerTimer2Duration_Long == 0) 650 else --customerTimer2Duration_Long
         customerTimer3Duration_Long = if (customerTimer3Duration_Long == 0) 650 else --customerTimer3Duration_Long
 
-        customerTimer1_TextView.text = if (customerTimer1Duration_Long in 0..600) "${kotlin.math.ceil(customerTimer1Duration_Long / 10.0).toInt()}" else ""
-        customerTimer2_TextView.text = if (customerTimer2Duration_Long in 0..600) "${kotlin.math.ceil(customerTimer2Duration_Long / 10.0).toInt()}" else ""
-        customerTimer3_TextView.text = if (customerTimer3Duration_Long in 0..600) "${kotlin.math.ceil(customerTimer3Duration_Long / 10.0).toInt()}" else ""
+        customerTimer1_TextView.text = if (customerTimer1Duration_Long in 0..600) "${kotlin.math.ceil(customerTimer1Duration_Long / 10.0).toInt()} second/s left" else ""
+        customerTimer2_TextView.text = if (customerTimer2Duration_Long in 0..600) "${kotlin.math.ceil(customerTimer2Duration_Long / 10.0).toInt()} second/s left" else ""
+        customerTimer3_TextView.text = if (customerTimer3Duration_Long in 0..600) "${kotlin.math.ceil(customerTimer3Duration_Long / 10.0).toInt()} second/s left" else ""
         when (customerServeNumber) {
             1 -> {
                 customerServeTimer_TextView.text = customerTimer1_TextView.text
@@ -534,28 +559,30 @@ class ActivityGame : AppCompatActivity() {
                 val customerPrefs = customerPrefsDatabase.getRandomCustomer()!!
                 nameTextView.text = customerDatabase.getRandomCustomer()!!.name
                 imageView.setImageDrawable(Drawable.createFromStream(assets.open(customer.image[0]), null))
-                var choose = 1
-                when (difficulty) {
-                    1 -> choose = weightedRandom(listOf(1 to 0.6, 2 to 0.35, 3 to 0.05))
-                    2 -> choose = weightedRandom(listOf(1 to 0.35, 2 to 0.45, 3 to 0.2))
-                    3 -> choose = weightedRandom(listOf(1 to 0.2, 2 to 0.4, 3 to 0.4))
-                }
-                choose = 1 // force easy
+                var choose = difficulty
+//                when (difficulty) {
+//                    1 -> choose = weightedRandom(listOf(1 to 0.6, 2 to 0.35, 3 to 0.05))
+//                    2 -> choose = weightedRandom(listOf(1 to 0.35, 2 to 0.45, 3 to 0.2))
+//                    3 -> choose = weightedRandom(listOf(1 to 0.2, 2 to 0.4, 3 to 0.4))
+//                }
+//                choose = 1 // force easy
                 when (customerIndex) {
                     1 -> {
                         when (choose) {
                             1 -> {
-                                val easy = easyGenerator(customerPrefs.easy)
+                                val easy = easyGenerator(4)
                                 customer1Equalizer = EqualizerDataClass(items = easy)
                                 customer1Dialogue_String = equalizerToListedForm(easy)
                             }
                             2 -> {
-                                customer1Dialogue_String = customerPrefs.medium.first
-                                customer1Equalizer = customerPrefs.medium.second
+                                val easy = easyGenerator(10)
+                                customer1Dialogue_String = equalizerToListedForm(easy)
+                                customer1Equalizer = EqualizerDataClass(items = easy)
                             }
                             3 -> {
-                                customer1Dialogue_String = customerPrefs.hard.first
-                                customer1Equalizer = customerPrefs.hard.second
+                                val easy = easyGenerator(20)
+                                customer1Dialogue_String = equalizerToListedForm(easy)
+                                customer1Equalizer = EqualizerDataClass(items = easy)
                             }
                         }
                         customer1DialogueFiller_String = customerDatabase.getRandomCustomer()!!.dialogFiller
@@ -570,17 +597,19 @@ class ActivityGame : AppCompatActivity() {
                     2 -> {
                         when (choose) {
                             1 -> {
-                                val easy = easyGenerator(customerPrefs.easy)
+                                val easy = easyGenerator(4)
                                 customer2Equalizer = EqualizerDataClass(items = easy)
                                 customer2Dialogue_String = equalizerToListedForm(easy)
                             }
                             2 -> {
-                                customer2Dialogue_String = customerPrefs.medium.first
-                                customer2Equalizer = customerPrefs.medium.second
+                                val easy = easyGenerator(10)
+                                customer2Dialogue_String = equalizerToListedForm(easy)
+                                customer2Equalizer = EqualizerDataClass(items = easy)
                             }
                             3 -> {
-                                customer2Dialogue_String = customerPrefs.hard.first
-                                customer2Equalizer = customerPrefs.hard.second
+                                val easy = easyGenerator(20)
+                                customer2Dialogue_String = equalizerToListedForm(easy)
+                                customer2Equalizer = EqualizerDataClass(items = easy)
                             }
                         }
                         customer2DialogueFiller_String = customerDatabase.getRandomCustomer()!!.dialogFiller
@@ -595,17 +624,19 @@ class ActivityGame : AppCompatActivity() {
                     3 -> {
                         when (choose) {
                             1 -> {
-                                val easy = easyGenerator(customerPrefs.easy)
+                                val easy = easyGenerator(4)
                                 customer3Equalizer = EqualizerDataClass(items = easy)
                                 customer3Dialogue_String = equalizerToListedForm(easy)
                             }
                             2 -> {
-                                customer3Dialogue_String = customerPrefs.medium.first
-                                customer3Equalizer = customerPrefs.medium.second
+                                val easy = easyGenerator(10)
+                                customer3Dialogue_String = equalizerToListedForm(easy)
+                                customer3Equalizer = EqualizerDataClass(items = easy)
                             }
                             3 -> {
-                                customer3Dialogue_String = customerPrefs.hard.first
-                                customer3Equalizer = customerPrefs.hard.second
+                                val easy = easyGenerator(20)
+                                customer3Dialogue_String = equalizerToListedForm(easy)
+                                customer3Equalizer = EqualizerDataClass(items = easy)
                             }
                         }
                         customer3DialogueFiller_String = customerDatabase.getRandomCustomer()!!.dialogFiller
@@ -637,23 +668,32 @@ class ActivityGame : AppCompatActivity() {
         throw IllegalArgumentException("Items list cannot be empty")
     }
 
-    private fun easyGenerator(easy: List<Pair<String, Double>>): List<Pair<String, Int>> {
+    private fun easyGenerator(maxItems: Int): List<Pair<String, Int>> {
+        val items = listOf(
+            "Classic Burger", "Cheese Burger", "Porkinator", "The Kurumburger",
+            "The Denburger", "The Juliussaucy", "The Ronin Deluxe", "Classic Fry Bucket",
+            "Cheese Fry Bucket", "Onion Rings", "Chicken Fingers", "Milktea",
+            "Matcha Milktea", "Taro Milktea", "Wintermelon Milktea"
+        )
+
         val itemQuantities = mutableMapOf<String, Int>()
 
         // Ensure at least one item is included
-        val guaranteedItem = easy.random()
-        itemQuantities[guaranteedItem.first] = (itemQuantities[guaranteedItem.first] ?: 0) + 1
+        val guaranteedItem = items.random()
+        itemQuantities[guaranteedItem] = 1
 
-        // Process all items based on probability
-        for ((itemName, chance) in easy) {
-            if (itemName != guaranteedItem.first) { // Avoid duplicating the guaranteed item selection
-                if (Random.nextDouble() < chance) {
-                    itemQuantities[itemName] = (itemQuantities[itemName] ?: 0) + 1
-                }
+        // Generate random probabilities for each item (0.1 to 0.9 for controlled randomness)
+        val probabilities = items.associateWith { Random.nextDouble(0.1, 0.9) }
+
+        // Select up to maxItems items, allowing duplicates (but increasing quantity instead)
+        repeat(maxItems - 1) {
+            val item = items.random() // Random item selection
+
+            if (Random.nextDouble() < probabilities[item]!!) {
+                itemQuantities[item] = itemQuantities.getOrDefault(item, 0) + 1
             }
         }
 
-        // Convert map to list of pairs
         return itemQuantities.toList()
     }
 

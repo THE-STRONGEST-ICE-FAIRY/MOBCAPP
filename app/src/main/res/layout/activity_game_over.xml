@@ -2,67 +2,126 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/linearLayout_GameOver"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ActivityGameOver">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="GameOver\nThank You For Playing!" />
-
-    <TextView
-        android:id="@+id/textView_ScoreDisplay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total Score: 99" />
-
     <LinearLayout
-        android:id="@+id/layout_InputName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editText_InputName"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:text="Name" />
+            android:layout_marginBottom="20dp"
+            android:fontFamily="monospace"
+            android:text="G A M E O V E R\nThank You For Playing!"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button_ConfirmName"
+        <TextView
+            android:id="@+id/textView_ScoreDisplay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Confirm Name" />
+            android:fontFamily="monospace"
+            android:text="Total Sales: 99 GoldBurgs"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_InputName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editText_InputName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="Player 0"
+                android:textColor="#FFFFFF"
+                android:fontFamily="monospace"/>
+
+            <ImageButton
+                android:id="@+id/button_ConfirmName"
+                android:layout_width="285dp"
+                android:layout_height="84dp"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:contentDescription="Back to Main Menu"
+                android:scaleType="centerCrop"
+                android:src="@drawable/neco" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_Leaderboards"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="1"
         android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView_Leaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView_LeaderboardName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:scaleType="fitStart"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/imageView_LeaderboardScore"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:scaleType="fitEnd"
+                tools:srcCompat="@tools:sample/avatars" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView_Leaderboards"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Leaderboard" />
+            android:text="Leaderboard"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_Leaderboards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/button_BackToMainMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:text="Back to Main Menu" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/buttonBackToMainMenu"
+        android:layout_width="178dp"
+        android:layout_height="131dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="50dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Back to Main Menu"
+        android:scaleType="centerCrop"
+        android:src="@drawable/neco" />
 </LinearLayout>

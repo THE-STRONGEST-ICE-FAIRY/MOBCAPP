@@ -48,11 +48,21 @@ data class EqualizerDataClass(
             if (thisValue != otherValue) differenceCount++
         }
 
-        // Compare items list (count unique differences)
-        val thisItems = this.items.orEmpty().toSet()
-        val otherItems = other.items.orEmpty().toSet()
-        val itemDifferences = (thisItems union otherItems) - (thisItems intersect otherItems)
-        differenceCount += itemDifferences.size
+        // Compare items list INCLUDING QUANTITIES!
+        val thisItems = this.items.orEmpty().toMap()
+        val otherItems = other.items.orEmpty().toMap()
+
+        for ((item, quantity) in thisItems) {
+            if (otherItems[item] != quantity) {
+                differenceCount++ // Different quantity or missing item
+            }
+        }
+
+        for ((item, quantity) in otherItems) {
+            if (thisItems[item] != quantity) {
+                differenceCount++ // Different quantity or missing item
+            }
+        }
 
         // Compare ingredients list (count unique differences)
         val thisIngredients = this.ingredient.orEmpty().toSet()
@@ -62,4 +72,5 @@ data class EqualizerDataClass(
 
         return differenceCount
     }
+
 }

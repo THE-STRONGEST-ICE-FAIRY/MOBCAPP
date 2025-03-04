@@ -37,7 +37,7 @@ class LeaderboardDatabaseHelper(context: Context) :
     fun getTopScores(): List<Pair<String, Int>> {
         val leaderboard = mutableListOf<Pair<String, Int>>()
         val db = readableDatabase
-        val query = "SELECT $COLUMN_NAME, $COLUMN_SCORE FROM $TABLE_LEADERBOARD ORDER BY $COLUMN_SCORE DESC LIMIT 10"
+        val query = "SELECT $COLUMN_NAME, $COLUMN_SCORE FROM $TABLE_LEADERBOARD ORDER BY $COLUMN_SCORE DESC, $COLUMN_ID DESC LIMIT 10"
         val cursor = db.rawQuery(query, null)
 
         if (cursor.moveToFirst()) {

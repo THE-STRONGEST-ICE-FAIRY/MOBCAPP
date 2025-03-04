@@ -2,20 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/linearLayout_GameDifficulty"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
-    tools:context=".SampleList">
+    tools:context=".SampleList"
+    android:layout_marginBottom="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#40000000">
 
         <ImageView
             android:id="@+id/imageView"
@@ -37,8 +39,11 @@
                 android:id="@+id/sample_TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="monospace"
                 android:text="Item Name"
-                android:textSize="18sp" />
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/sample_TextView2"
@@ -46,7 +51,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Item Description"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:fontFamily="monospace"
+                android:textColor="#FFFFFF"/>
 
             <TextView
                 android:id="@+id/sample_TextView3"
@@ -54,7 +61,9 @@
                 android:layout_height="wrap_content"
                 android:text="Item Price"
                 android:textAlignment="textEnd"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:fontFamily="monospace"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
         <ImageButton

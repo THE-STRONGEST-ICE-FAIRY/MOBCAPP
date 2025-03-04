@@ -23,7 +23,7 @@ class LeaderboardAdapter(private var leaderboardData: List<Pair<String, Int>>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (name, score) = leaderboardData[position]
         holder.playerName.text = name
-        holder.playerScore.text = "Score: $score"
+        holder.playerScore.text = "$score"
     }
 
     override fun getItemCount() = leaderboardData.size
